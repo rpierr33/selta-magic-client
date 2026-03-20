@@ -159,7 +159,7 @@ export default function Login() {
           <div className="w-full max-w-md">
             {/* Logo at top of form */}
             <div className="flex justify-center mb-6">
-              <Logo className="h-16 w-auto" />
+              <Logo variant="cart" className="h-16 w-auto" />
             </div>
 
             <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="w-full">

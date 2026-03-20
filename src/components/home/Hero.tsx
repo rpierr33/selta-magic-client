@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShoppingCart, Sparkles, Star } from "lucide-react";
-import ImageCarousel from "./ImageCarousel";
 import { useNavigate } from "react-router-dom";
 
 interface HeroProps {
@@ -142,7 +141,7 @@ export default function Hero({ className }: HeroProps) {
             </motion.div>
           </div>
 
-          {/* Right Column - Image Carousel */}
+          {/* Right Column - Hero Image */}
           <div className="relative">
             <motion.div
               className="relative z-10"
@@ -157,9 +156,20 @@ export default function Hero({ className }: HeroProps) {
               <div className="absolute -top-4 -right-4 w-full h-full border border-selta-gold/20 rounded-2xl rotate-2 z-0" />
               <div className="absolute -bottom-4 -left-4 w-full h-full border border-selta-purple/20 rounded-2xl -rotate-2 z-0" />
 
-              {/* Carousel container with gold border accent */}
-              <div className="relative rounded-2xl overflow-hidden ring-1 ring-selta-gold/20 shadow-2xl shadow-black/30 z-10">
-                <ImageCarousel />
+              {/* Static hero image with gold ring effect */}
+              <div className="relative rounded-2xl overflow-hidden ring-2 ring-selta-gold/30 shadow-2xl shadow-black/30 z-10">
+                <img
+                  src="/lovable-uploads/hair-oil.avif"
+                  alt="Selta Magic Hair Oil - Premium Hair Care"
+                  className="w-full h-auto aspect-[4/5] object-cover"
+                  width="600"
+                  height="750"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                />
+                {/* Subtle gradient overlay at bottom */}
+                <div className="absolute inset-0 bg-gradient-to-t from-selta-deep-purple/40 via-transparent to-transparent" />
               </div>
             </motion.div>
           </div>

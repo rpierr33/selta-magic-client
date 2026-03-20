@@ -28,7 +28,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand column */}
           <div className="space-y-4">
-            <Logo className="h-10 w-auto brightness-110" />
+            <Logo variant="cart" className="h-10 w-auto brightness-110" />
             <p className="text-gray-300 mt-2 leading-relaxed">
               Elevate your beauty with our premium hair care products designed for natural hair growth and health.
             </p>
