@@ -4,32 +4,42 @@ import { FeaturedProduct } from './types';
 export const featuredProducts: FeaturedProduct[] = [
   {
     id: 1,
-    name: "Luxurious Hair Wig",
+    name: "Selta Magic Hair Oil",
     price: 29.99,
     rating: 4.9,
     reviews: 128,
-    image: "/lovable-uploads/image3.jpeg",
+    image: "/lovable-uploads/hair-oil.avif",
     isNew: true,
     isBestSeller: true
   },
   {
     id: 2,
-    name: "Soap Cleanse and Moisturize",
-    price: 19.99,
+    name: "Selta Magic Soap",
+    price: 14.99,
     rating: 4.7,
     reviews: 94,
-    image: "/lovable-uploads/image2.jpeg",
+    image: "/lovable-uploads/soap.avif",
     isNew: false,
-    isBestSeller: false
+    isBestSeller: true
   },
   {
     id: 3,
-    name: "Hair Oil",
-    price: 24.99,
+    name: "Luxurious Hair Wig",
+    price: 89.99,
     rating: 4.8,
     reviews: 56,
-    image: "/lovable-uploads/image4.jpeg",
+    image: "/lovable-uploads/hair-wig.avif",
     isNew: true,
     isBestSeller: false
+  },
+  {
+    id: 4,
+    name: "Selta Magic Eye Cream",
+    price: 34.99,
+    rating: 4.9,
+    reviews: 72,
+    image: "/lovable-uploads/eye-cream.avif",
+    isNew: true,
+    isBestSeller: true
   }
 ];

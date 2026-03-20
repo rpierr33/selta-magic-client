@@ -14,15 +14,15 @@ export interface Product {
   isBestSeller?: boolean;
 }
 
-// Sample product data
+// Product data matching actual Selta Magic product line
 export const products: Product[] = [
   {
     id: "1",
-    name: "Hair Growth Oilzzzzzzzzzzzz",
+    name: "Selta Magic Hair Oil",
     price: 29.99,
     original_price: 39.99,
-    description: "Our premium hair growth oil is formulated with natural ingredients to stimulate hair follicles and promote healthy growth. The unique blend of essential oils and vitamins penetrates deeply to nourish your scalp and strengthen hair from the root.",
-    image: "/lovable-uploads/image2.jpeg",
+    description: "Strengthen and nourish your hair with our premium Selta Magic Hair Oil. Formulated with natural oils and essential vitamins, this powerful blend penetrates deeply to fortify hair from root to tip, promoting healthy growth and a lustrous shine. Recommended for all hair types.",
+    image: "/lovable-uploads/hair-oil.avif",
     category: "Hair Care",
     brand: "Selta",
     stock_quantity: 150,
@@ -33,25 +33,26 @@ export const products: Product[] = [
   },
   {
     id: "2",
-    name: "Moisturizing Shampoo",
-    price: 19.99,
-    description: "A gentle yet effective moisturizing shampoo suitable for all hair types. Infused with natural botanicals and hydrating compounds to cleanse while maintaining your hair's natural moisture balance.",
-    image: "/lovable-uploads/3d2dd03b-d2c0-4a87-87da-6572aacdf609.png",
-    category: "Hair Care",
+    name: "Selta Magic Soap",
+    price: 14.99,
+    description: "Cleanse and moisturize with our gentle yet effective Selta Magic Soap. Specially crafted for all skin types, this nourishing soap combines natural ingredients to leave your skin feeling soft, hydrated, and refreshed after every use. Perfect for daily skincare.",
+    image: "/lovable-uploads/soap.avif",
+    category: "Skin Care",
     brand: "Selta",
     stock_quantity: 200,
     rating: 4.7,
     reviews: 94,
     isNew: false,
-    isBestSeller: false
+    isBestSeller: true
   },
   {
     id: "3",
-    name: "Deep Conditioning Mask",
-    price: 24.99,
-    description: "An intensive treatment mask designed to repair and revitalize damaged hair. Our deep conditioning formula is enriched with proteins and oils that restore elasticity and shine to over-processed or dry hair.",
-    image: "/lovable-uploads/81fc9336-91ab-4beb-b02b-d7ef05d193d6.png",
-    category: "Hair Care",
+    name: "Luxurious Hair Wig",
+    price: 89.99,
+    original_price: 119.99,
+    description: "Transform your look with our premium quality Luxurious Hair Wig. Designed to suit all hair types, this beautifully crafted wig offers a natural appearance and comfortable fit, giving you the confidence to express your unique style effortlessly.",
+    image: "/lovable-uploads/hair-wig.avif",
+    category: "Hair Accessories",
     brand: "Selta",
     stock_quantity: 120,
     rating: 4.8,
@@ -61,17 +62,17 @@ export const products: Product[] = [
   },
   {
     id: "4",
-    name: "Hair Strengthening Serumzzzzzzzzzzzzzzzzzzzz",
+    name: "Selta Magic Eye Cream",
     price: 34.99,
     original_price: 44.99,
-    description: "A powerful serum designed to strengthen hair and prevent breakage. Formulated with biotin and keratin to reinforce hair structure and reduce split ends for healthier, more resilient locks.",
-    image: "/lovable-uploads/ebee27d0-56e2-4a7c-9fd4-1dc0ed581077.png",
-    category: "Hair Care",
+    description: "Revitalize and brighten the delicate skin around your eyes with our Selta Magic Eye Cream. This advanced formula targets dark circles, puffiness, and fine lines with a blend of nourishing botanicals and peptides for a youthful, refreshed appearance.",
+    image: "/lovable-uploads/eye-cream.avif",
+    category: "Skin Care",
     brand: "Selta",
     stock_quantity: 100,
     rating: 4.9,
     reviews: 72,
-    isNew: false,
+    isNew: true,
     isBestSeller: true
   },
 ];

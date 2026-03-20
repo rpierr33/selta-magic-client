@@ -52,7 +52,6 @@ export const createImageErrorHandler = (fallbackSrc: string = config.placeholder
   return (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = e.target as HTMLImageElement;
     console.error('Image failed to load:', target.src);
-    console.log('Falling back to:', fallbackSrc);
     
     if (target.src !== fallbackSrc) {
       target.src = fallbackSrc;
@@ -64,9 +63,9 @@ export const createImageErrorHandler = (fallbackSrc: string = config.placeholder
  * Validates if an image file is acceptable for upload
  */
 export const isValidImageFile = (file: File): boolean => {
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif'];
   const maxSize = 5 * 1024 * 1024; // 5MB
-  
+
   return allowedTypes.includes(file.type) && file.size <= maxSize;
 };
 
@@ -74,11 +73,11 @@ export const isValidImageFile = (file: File): boolean => {
  * Gets a human-readable error message for invalid image files
  */
 export const getImageValidationError = (file: File): string | null => {
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif'];
   const maxSize = 5 * 1024 * 1024; // 5MB
-  
+
   if (!allowedTypes.includes(file.type)) {
-    return 'Invalid file type. Please upload a JPEG, PNG, GIF, or WebP image.';
+    return 'Invalid file type. Please upload a JPEG, PNG, GIF, WebP, or AVIF image.';
   }
   
   if (file.size > maxSize) {

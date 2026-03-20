@@ -138,7 +138,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      console.log('Logging out user');
       const { error } = await localClient.signOut();
       if (error) {
         console.error('Logout error:', error);
@@ -162,12 +161,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     clearError
   };
   
-  console.log('Current auth state:', { 
-    user: user,
-    isAdmin: user?.role === 'admin',
-    error: error
-  });
-
   return (
     <AuthContext.Provider value={authValue}>
       {children}

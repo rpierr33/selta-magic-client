@@ -18,13 +18,11 @@ export default function ProductCard({ product, variants }: ProductCardProps) {
   
   const handleProductClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    console.log(`Product clicked: ${product.id}`);
     navigate(`/products/${product.id}`);
   };
 
   const handleViewMore = (e: React.MouseEvent) => {
     e.preventDefault();
-    console.log('View more clicked - navigating to products page');
     navigate('/products');
   };
 

@@ -11,7 +11,7 @@ export const config = {
   
   // Image settings
   maxImageSize: 5 * 1024 * 1024, // 5MB
-  allowedImageTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+  allowedImageTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif'],
   
   // Default fallbacks
   placeholderImage: '/placeholder.svg',

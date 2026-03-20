@@ -45,12 +45,10 @@ export default function FeaturedProducts() {
 
   const handleViewAllProducts = (e: React.MouseEvent) => {
     e.preventDefault();
-    console.log('View All Products clicked');
     navigate('/products');
   };
 
   const handleFilterChange = (value: string[]) => {
-    console.log('Filter changed to:', value);
     setActiveFilters(value);
   };
 

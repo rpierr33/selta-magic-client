@@ -6,10 +6,10 @@ const CAROUSEL_UPDATE_EVENT = 'carousel-images-updated';
 
 // Default carousel images (fallback)
 const defaultImages: ImageType[] = [
-  { src: "/lovable-uploads/image2.jpeg", alt: "Soap Cleanse and Moisturize" },
-  { src: "/lovable-uploads/image3.jpeg", alt: "Luxurious Hair Wig" },
-  { src: "/lovable-uploads/image4.jpeg", alt: "air Growth Oil" },
-  { src: "/lovable-uploads/image1.jpeg", alt: "Hair Growth Oil" }
+  { src: "/lovable-uploads/hair-oil.avif", alt: "Selta Magic Hair Oil - Strengthen & Nourish" },
+  { src: "/lovable-uploads/soap.avif", alt: "Selta Magic Soap - Cleanse & Moisturize" },
+  { src: "/lovable-uploads/hair-wig.avif", alt: "Luxurious Hair Wig" },
+  { src: "/lovable-uploads/eye-cream.avif", alt: "Selta Magic Eye Cream" }
 ];
 
 export class CarouselService {

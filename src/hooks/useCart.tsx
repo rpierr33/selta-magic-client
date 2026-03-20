@@ -38,7 +38,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     try {
       if (user) {
         // Load from database for logged-in users
-        console.log('Loading cart from database for user:', user.id);
         const token = localStorage.getItem('auth_token');
         if (token) {
           const response = await fetch(`${API_BASE_URL}/cart`, {
@@ -49,7 +48,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           
           if (response.ok) {
             const result = await response.json();
-            console.log('Cart loaded from database:', result.data);
             setCartItems(result.data || []);
           } else {
             console.error('Failed to load cart from database');
@@ -75,7 +73,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     if (savedCart) {
       try {
         const parsedCart = JSON.parse(savedCart);
-        console.log('Cart loaded from localStorage:', parsedCart);
         setCartItems(parsedCart);
       } catch (error) {
         console.error('Failed to parse cart from localStorage:', error);
@@ -89,7 +86,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!user) {
       try {
-        console.log('Saving cart to localStorage:', cartItems);
         localStorage.setItem('cart', JSON.stringify(cartItems));
       } catch (error) {
         console.error('Error saving cart to localStorage:', error);
@@ -99,7 +95,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const addToCart = async (product: any, quantity = 1) => {
     try {
-      console.log('Adding to cart:', { product, quantity, user: user?.id });
       setLoading(true);
       
       // Validate product data
@@ -164,14 +159,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         }
         
         const result = await response.json();
-        console.log('Item added to database cart:', result);
         // Reload cart from database
         await loadCart();
       } else {
         // Add to localStorage for non-logged-in users
         setCartItems(prevItems => {
-          console.log('Previous cart items:', prevItems);
-          
           // Check if item already exists in cart
           const existingItemIndex = prevItems.findIndex(item => item.id === product.id);
           
@@ -182,7 +174,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
               ...updatedItems[existingItemIndex],
               quantity: updatedItems[existingItemIndex].quantity + quantity
             };
-            console.log('Updated existing item:', updatedItems);
             return updatedItems;
           } else {
             // Add new item to cart
@@ -193,9 +184,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
               quantity,
               image: product.image_url || product.image || '/placeholder.svg'
             };
-            console.log('Adding new item:', newItem);
             const newItems = [...prevItems, newItem];
-            console.log('New cart items:', newItems);
             return newItems;
           }
         });
@@ -229,7 +218,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           });
           
           if (response.ok) {
-            console.log('Item removed from database cart');
             // Reload cart from database
             await loadCart();
           } else {
@@ -271,7 +259,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           });
           
           if (response.ok) {
-            console.log('Cart item quantity updated in database');
             // Reload cart from database
             await loadCart();
           } else {
@@ -310,7 +297,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           });
           
           if (response.ok) {
-            console.log('Database cart cleared');
             setCartItems([]);
           } else {
             const error = await response.json();

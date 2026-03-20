@@ -50,15 +50,11 @@ export default function Products() {
         const productsResult = await productsResponse.json();
         const categoriesResult = await categoriesResponse.json();
 
-        console.log('Products from API:', productsResult);
-        console.log('Categories from API:', categoriesResult);
-
         if (productsResult.error) throw new Error(productsResult.error);
         if (categoriesResult.error) throw new Error(categoriesResult.error);
         
         setProducts(productsResult.data || []);
         setCategories(categoriesResult.data || []);
-        console.log('Categories set to state:', categoriesResult.data || []);
       } catch (error) {
         console.error('Error fetching data:', error);
         toast.error('Failed to fetch data');
@@ -76,9 +72,6 @@ export default function Products() {
       .map(p => p.brand)
       .filter(brand => brand && brand.trim() !== '')
   )).sort(); // Sort alphabetically
-  
-  console.log('All products:', products);
-  console.log('Extracted brands from products:', brands);
   
   // Apply filters and sorting
   useEffect(() => {
@@ -99,7 +92,6 @@ export default function Products() {
     if (priceRanges.length > 0) {
       result = result.filter(p => {
         const price = parseFloat(p.price);
-        console.log(`Checking product ${p.name} with price $${price} against ranges:`, priceRanges);
         return priceRanges.some(range => {
           if (range === 'under-30') return price < 30;
           if (range === '30-50') return price >= 30 && price <= 50;
@@ -111,7 +103,6 @@ export default function Products() {
     }
     
     // Apply sorting
-    console.log(`Sorting ${result.length} products by: ${sortBy}`);
     result.sort((a, b) => {
       const priceA = parseFloat(a.price);
       const priceB = parseFloat(b.price);
@@ -119,21 +110,17 @@ export default function Products() {
       const ratingB = b.rating ? parseFloat(b.rating) : 0;
       
       if (sortBy === "price-low") {
-        console.log(`Sorting price low to high: ${a.name} ($${priceA}) vs ${b.name} ($${priceB})`);
         return priceA - priceB;
       }
       if (sortBy === "price-high") {
-        console.log(`Sorting price high to low: ${a.name} ($${priceA}) vs ${b.name} ($${priceB})`);
         return priceB - priceA;
       }
       if (sortBy === "rating") {
-        console.log(`Sorting by rating: ${a.name} (${ratingA}★) vs ${b.name} (${ratingB}★)`);
         return ratingB - ratingA;
       }
       if (sortBy === "newest") {
         const dateA = new Date(a.created_at || '').getTime();
         const dateB = new Date(b.created_at || '').getTime();
-        console.log(`Sorting by newest: ${a.name} (${a.created_at}) vs ${b.name} (${b.created_at})`);
         return dateB - dateA;
       }
       // Default: featured - show highest rated first, then newest
@@ -142,9 +129,6 @@ export default function Products() {
       const dateB = new Date(b.created_at || '').getTime();
       return dateB - dateA;
     });
-    
-    console.log(`Final filtered and sorted products: ${result.length}`);
-    console.log('Result:', result.map(p => ({name: p.name, price: p.price, rating: p.rating, category: p.category, brand: p.brand})));
     
     setFilteredProducts(result);
   }, [products, selectedCategories, selectedBrands, priceRanges, sortBy]);

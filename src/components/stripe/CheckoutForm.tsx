@@ -26,22 +26,11 @@ export default function CheckoutForm({ amount, cartItems, shippingAddress, onSuc
   // Create payment intent on component mount
   useEffect(() => {
     if (!user || !cartItems.length || !shippingAddress) {
-      console.log('Payment intent creation skipped:', {
-        hasUser: !!user,
-        cartItemsLength: cartItems.length,
-        hasShippingAddress: !!shippingAddress
-      });
       return;
     }
 
     const createPaymentIntent = async () => {
       try {
-        console.log('Creating payment intent with:', {
-          amount,
-          cartItems: cartItems.length,
-          shippingAddress: !!shippingAddress
-        });
-
         const token = localStorage.getItem('auth_token');
         if (!token) {
           throw new Error('No authentication token found');
@@ -61,8 +50,6 @@ export default function CheckoutForm({ amount, cartItems, shippingAddress, onSuc
           }),
         });
 
-        console.log('Payment intent response status:', response.status);
-
         if (!response.ok) {
           const errorData = await response.json();
           console.error('Payment intent error response:', errorData);
@@ -70,7 +57,6 @@ export default function CheckoutForm({ amount, cartItems, shippingAddress, onSuc
         }
 
         const { clientSecret } = await response.json();
-        console.log('Payment intent created successfully');
         setClientSecret(clientSecret);
       } catch (error) {
         console.error('Error creating payment intent:', error);

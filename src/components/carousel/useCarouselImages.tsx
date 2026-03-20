@@ -52,7 +52,7 @@ export function useCarouselImages() {
         
         if (loadingRef.current === currentLoadingRef) {
           setImagesLoaded(true);
-          console.log('High priority carousel images loaded');
+          // High priority images loaded
         }
         
         // Then load the rest
@@ -68,7 +68,7 @@ export function useCarouselImages() {
         
         if (loadingRef.current === currentLoadingRef) {
           setAllImagesLoaded(true);
-          console.log('All carousel images loaded');
+          // All carousel images loaded
         }
       } catch (error) {
         console.error('Error loading carousel images:', error);
