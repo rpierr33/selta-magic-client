@@ -4,7 +4,7 @@ import { FeaturedProduct } from './types';
 export const featuredProducts: FeaturedProduct[] = [
   {
     id: 1,
-    name: "Selta Magic Hair Oil",
+    name: "Selta Magic Growth Elixir",
     price: 29.99,
     rating: 4.9,
     reviews: 128,
@@ -14,7 +14,7 @@ export const featuredProducts: FeaturedProduct[] = [
   },
   {
     id: 2,
-    name: "Selta Magic Soap",
+    name: "Selta Magic Purifying Bar",
     price: 14.99,
     rating: 4.7,
     reviews: 94,
@@ -24,7 +24,7 @@ export const featuredProducts: FeaturedProduct[] = [
   },
   {
     id: 3,
-    name: "Luxurious Hair Wig",
+    name: "Selta Magic Premium Unit",
     price: 89.99,
     rating: 4.8,
     reviews: 56,
@@ -34,7 +34,7 @@ export const featuredProducts: FeaturedProduct[] = [
   },
   {
     id: 4,
-    name: "Selta Magic Eye Cream",
+    name: "Selta Magic Brightening Eye Therapy",
     price: 34.99,
     rating: 4.9,
     reviews: 72,

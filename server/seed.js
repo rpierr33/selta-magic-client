@@ -147,8 +147,8 @@ async function seed() {
       VALUES
         (
           gen_random_uuid(),
-          'Selta Magic Hair Oil',
-          'Strengthen and nourish your hair with our premium Selta Magic Hair Oil. Formulated with natural oils and essential vitamins, this powerful blend penetrates deeply to fortify hair from root to tip, promoting healthy growth and a lustrous shine. Recommended for all hair types.',
+          'Selta Magic Growth Elixir',
+          'A clinically-inspired blend of nutrient-rich botanical oils designed to restore strength, stimulate growth, and deeply nourish the scalp. Selta Magic Growth Elixir penetrates beyond the surface to support healthier, fuller hair — without synthetic fillers or harsh chemicals. Lightweight yet potent, this formula is ideal for protective styles, natural hair, and chemically treated hair alike. Target the scalp. Transform the hair.',
           29.99,
           39.99,
           'Hair Care',
@@ -159,8 +159,8 @@ async function seed() {
         ),
         (
           gen_random_uuid(),
-          'Selta Magic Soap',
-          'Cleanse and moisturize with our gentle yet effective Selta Magic Soap. Specially crafted for all skin types, this nourishing soap combines natural ingredients to leave your skin feeling soft, hydrated, and refreshed after every use. Perfect for daily skincare.',
+          'Selta Magic Purifying Bar',
+          'A gentle yet effective cleansing bar formulated to purify, balance, and restore the skin without stripping its natural moisture barrier. Infused with plant-based ingredients known for their clarifying and soothing properties, this bar is ideal for daily use on face and body. Designed for melanin-rich skin, it helps promote an even, radiant complexion. Clean skin. Clear confidence.',
           14.99,
           NULL,
           'Skin Care',
@@ -171,8 +171,8 @@ async function seed() {
         ),
         (
           gen_random_uuid(),
-          'Luxurious Hair Wig',
-          'Transform your look with our premium quality Luxurious Hair Wig. Designed to suit all hair types, this beautifully crafted wig offers a natural appearance and comfortable fit, giving you the confidence to express your unique style effortlessly.',
+          'Selta Magic Premium Unit',
+          'Crafted for effortless beauty and confidence, the Selta Magic Premium Unit delivers a natural, flawless look with minimal effort. Designed to blend seamlessly and elevate your everyday style, this unit offers versatility, comfort, and durability. Whether worn daily or occasionally, it is beauty — simplified. Luxury hair. Zero compromise.',
           89.99,
           119.99,
           'Hair Accessories',
@@ -183,8 +183,8 @@ async function seed() {
         ),
         (
           gen_random_uuid(),
-          'Selta Magic Eye Cream',
-          'Revitalize and brighten the delicate skin around your eyes with our Selta Magic Eye Cream. This advanced formula targets dark circles, puffiness, and fine lines with a blend of nourishing botanicals and peptides for a youthful, refreshed appearance.',
+          'Selta Magic Brightening Eye Therapy',
+          'A targeted treatment formulated to visibly reduce dark circles, puffiness, and signs of fatigue. This lightweight, fast-absorbing cream delivers hydration and revitalization to the delicate under-eye area. Engineered with a clean, clinical approach to help you look rested — even when you are not. Look awake. Stay powerful.',
           34.99,
           44.99,
           'Skin Care',
@@ -202,10 +202,10 @@ async function seed() {
     await client.query(`
       INSERT INTO testimonials (id, customer_name, email, product_name, message, rating, is_approved)
       VALUES
-        (gen_random_uuid(), 'Sarah M.', 'sarah@example.com', 'Selta Magic Hair Oil', 'This hair oil has completely transformed my hair! It is so soft and shiny now. I have been using it for 3 months and the results are amazing.', 5, true),
-        (gen_random_uuid(), 'James K.', 'james@example.com', 'Selta Magic Soap', 'Best soap I have ever used. My skin feels so clean and moisturized. Will definitely be ordering more!', 5, true),
-        (gen_random_uuid(), 'Michelle R.', 'michelle@example.com', 'Selta Magic Eye Cream', 'I noticed a difference in my dark circles within just 2 weeks. This eye cream is a game changer. Highly recommend!', 5, true),
-        (gen_random_uuid(), 'Aisha T.', 'aisha@example.com', 'Luxurious Hair Wig', 'The quality of this wig is outstanding. It looks so natural and is very comfortable to wear all day.', 4, true)
+        (gen_random_uuid(), 'Sarah M.', 'sarah@example.com', 'Selta Magic Growth Elixir', 'This hair oil has completely transformed my hair! It is so soft and shiny now. I have been using it for 3 months and the results are amazing.', 5, true),
+        (gen_random_uuid(), 'James K.', 'james@example.com', 'Selta Magic Purifying Bar', 'Best soap I have ever used. My skin feels so clean and moisturized. Will definitely be ordering more!', 5, true),
+        (gen_random_uuid(), 'Michelle R.', 'michelle@example.com', 'Selta Magic Brightening Eye Therapy', 'I noticed a difference in my dark circles within just 2 weeks. This eye cream is a game changer. Highly recommend!', 5, true),
+        (gen_random_uuid(), 'Aisha T.', 'aisha@example.com', 'Selta Magic Premium Unit', 'The quality of this wig is outstanding. It looks so natural and is very comfortable to wear all day.', 4, true)
       ON CONFLICT DO NOTHING
     `);
 
