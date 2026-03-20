@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { MapPin, Trash2, Edit, Plus } from "lucide-react";
 import AddressForm from "./AddressForm";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 interface Address {
   id: string;

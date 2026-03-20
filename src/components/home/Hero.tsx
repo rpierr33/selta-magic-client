@@ -149,19 +149,12 @@ export default function Hero({ className }: HeroProps) {
               animate={loaded ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              {/* Gold glow behind image */}
-              <div className="absolute -inset-3 bg-gradient-to-br from-selta-gold/20 via-selta-purple/10 to-selta-gold/15 rounded-2xl blur-xl z-0" />
-
-              {/* Decorative rotated frames */}
-              <div className="absolute -top-4 -right-4 w-full h-full border border-selta-gold/20 rounded-2xl rotate-2 z-0" />
-              <div className="absolute -bottom-4 -left-4 w-full h-full border border-selta-purple/20 rounded-2xl -rotate-2 z-0" />
-
-              {/* Static hero image with gold ring effect */}
-              <div className="relative rounded-2xl overflow-hidden ring-2 ring-selta-gold/30 shadow-2xl shadow-black/30 z-10">
+              {/* Static hero image - clean and contained */}
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/20 z-10 max-w-sm mx-auto">
                 <img
                   src="/lovable-uploads/hair-oil.avif"
-                  alt="Selta Magic Hair Oil - Premium Hair Care"
-                  className="w-full h-auto aspect-[4/5] object-cover"
+                  alt="Selta Magic Growth Elixir - Premium Hair Care"
+                  className="w-full h-auto object-contain"
                   width="600"
                   height="750"
                   loading="eager"

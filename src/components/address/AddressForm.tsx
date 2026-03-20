@@ -11,7 +11,7 @@ import { useAuth } from "@/hooks/useAuth";
 // @ts-ignore
 import countries from 'world-countries';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 interface AddressFormData {
   type: 'shipping' | 'billing';

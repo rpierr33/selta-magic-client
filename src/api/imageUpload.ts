@@ -1,6 +1,6 @@
 // Image upload utility for uploading to backend API
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 export const uploadImageToLocal = async (file: File): Promise<string> => {
   try {
