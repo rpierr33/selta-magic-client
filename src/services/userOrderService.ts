@@ -53,8 +53,8 @@ export const userOrderService = {
       throw new Error(`Failed to fetch orders: ${errorText}`);
     }
 
-    const data: OrdersResponse = await response.json();
-    return data.orders;
+    const data = await response.json();
+    return data.orders || data.data || [];
   },
 
   // Get specific order details
@@ -83,7 +83,7 @@ export const userOrderService = {
     }
 
     const data = await response.json();
-    return data.order;
+    return data.order || data.data;
   },
 
   // Format order status for display

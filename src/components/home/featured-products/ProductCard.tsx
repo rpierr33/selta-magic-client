@@ -1,10 +1,11 @@
 
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { Eye, Heart, Star } from "lucide-react";
+import { ShoppingCart, Heart, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "@/hooks/useCart";
+import { useToast } from "@/hooks/use-toast";
 import { FeaturedProduct } from "./types";
 import { resolveImageUrl, createImageErrorHandler } from "@/utils/imageUtils";
 
@@ -15,19 +16,39 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, variants }: ProductCardProps) {
   const navigate = useNavigate();
-  
+  const { addToCart } = useCart();
+  const { toast } = useToast();
+
   const handleProductClick = (e: React.MouseEvent) => {
     e.preventDefault();
     navigate(`/products/${product.id}`);
   };
 
-  const handleViewMore = (e: React.MouseEvent) => {
+  const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
-    navigate('/products');
+    try {
+      await addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+      });
+      toast({
+        title: "Added to cart",
+        description: `${product.name} has been added to your cart`,
+      });
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to add item to cart.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
-    <motion.div 
+    <motion.div
       variants={variants}
       className="group relative"
     >
@@ -42,8 +63,8 @@ export default function ProductCard({ product, variants }: ProductCardProps) {
             )}
           </div>
         )}
-        
-        <div 
+
+        <div
           onClick={handleProductClick}
           className="aspect-square overflow-hidden block cursor-pointer"
         >
@@ -55,7 +76,7 @@ export default function ProductCard({ product, variants }: ProductCardProps) {
             onError={createImageErrorHandler()}
           />
         </div>
-        
+
         <div className="p-5">
           <div className="flex items-center mb-2">
             <div className="flex gap-1">
@@ -65,8 +86,8 @@ export default function ProductCard({ product, variants }: ProductCardProps) {
             </div>
             <span className="text-xs text-gray-700 ml-2 font-medium">({product.reviews})</span>
           </div>
-          
-          <div 
+
+          <div
             onClick={handleProductClick}
             className="block cursor-pointer"
           >
@@ -74,22 +95,22 @@ export default function ProductCard({ product, variants }: ProductCardProps) {
               {product.name}
             </h3>
           </div>
-          
+
           <p className="text-selta-gold font-bold mb-4">
             ${product.price}
           </p>
-          
+
           <div className="flex space-x-2">
             <Button
               className="bg-selta-deep-purple hover:bg-selta-deep-purple/90 text-white flex-1 rounded-full font-medium"
               size="sm"
-              onClick={handleViewMore}
+              onClick={handleAddToCart}
             >
-              <Eye className="h-4 w-4 mr-2" /> View More
+              <ShoppingCart className="h-4 w-4 mr-2" /> Add to Cart
             </Button>
-            <Button 
-              variant="outline" 
-              size="icon" 
+            <Button
+              variant="outline"
+              size="icon"
               className="rounded-full border-selta-deep-purple text-selta-deep-purple hover:bg-selta-deep-purple/10"
             >
               <Heart className="h-4 w-4" />
