@@ -1,9 +1,28 @@
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShoppingCart, Sparkles, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+
+const heroImages = [
+  {
+    src: "/lovable-uploads/55292163-5974-413e-a020-84e8c917e90a.png",
+    alt: "Beautiful curly hair with Selta Magic",
+  },
+  {
+    src: "/lovable-uploads/hero-2.jpg",
+    alt: "Gorgeous braided hairstyle",
+  },
+  {
+    src: "/lovable-uploads/hero-3.jpg",
+    alt: "Natural curly hair beauty",
+  },
+  {
+    src: "/lovable-uploads/hero-5.jpg",
+    alt: "Stunning curls and confidence",
+  },
+];
 
 interface HeroProps {
   className?: string;
@@ -11,12 +30,25 @@ interface HeroProps {
 
 export default function Hero({ className }: HeroProps) {
   const [loaded, setLoaded] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     requestAnimationFrame(() => {
       setLoaded(true);
     });
+  }, []);
+
+  // Auto-advance slider every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % heroImages.length);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, []);
+
+  const goToImage = useCallback((index: number) => {
+    setCurrentImage(index);
   }, []);
 
   const handleShopNowClick = (e: React.MouseEvent) => {
@@ -149,20 +181,42 @@ export default function Hero({ className }: HeroProps) {
               animate={loaded ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/20 z-10 max-w-md mx-auto">
-                <img
-                  src="/lovable-uploads/55292163-5974-413e-a020-84e8c917e90a.png"
-                  alt="Beautiful hair with Selta Magic"
-                  className="w-full h-auto object-cover aspect-[3/4] rounded-2xl"
-                  loading="eager"
-                  fetchPriority="high"
-                  decoding="async"
-                />
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/20 z-10 max-w-lg mx-auto">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={currentImage}
+                    src={heroImages[currentImage].src}
+                    alt={heroImages[currentImage].alt}
+                    className="w-full h-auto object-cover aspect-[3/4] rounded-2xl"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </AnimatePresence>
                 <div className="absolute inset-0 bg-gradient-to-t from-selta-deep-purple/60 via-transparent to-transparent rounded-2xl" />
-                <div className="absolute bottom-6 left-6 right-6">
+                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
                   <p className="text-white font-display text-lg font-semibold drop-shadow-lg">
                     Real results. Real confidence.
                   </p>
+                  {/* Slider dots */}
+                  <div className="flex gap-2">
+                    {heroImages.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => goToImage(index)}
+                        className={`h-2.5 rounded-full transition-all duration-300 ${
+                          index === currentImage
+                            ? "w-7 bg-selta-gold"
+                            : "w-2.5 bg-white/50 hover:bg-white/80"
+                        }`}
+                        aria-label={`Go to slide ${index + 1}`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.div>
