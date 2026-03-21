@@ -10,7 +10,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { userOrderService, UserOrder } from '@/services/userOrderService';
 
 const Orders = () => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [orders, setOrders] = useState<UserOrder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -18,14 +18,15 @@ const Orders = () => {
   const [selectedOrder, setSelectedOrder] = useState<UserOrder | null>(null);
 
   useEffect(() => {
+    if (authLoading) return;
     if (!user) {
-      navigate('/login');
+      navigate('/login?redirect=/orders');
       toast.error('Please log in to view your orders');
       return;
     }
 
     fetchOrders();
-  }, [user, navigate]);
+  }, [user, authLoading, navigate]);
 
   const fetchOrders = async () => {
     try {
@@ -64,8 +65,17 @@ const Orders = () => {
     setSelectedOrder(order);
   };
 
-  if (!user) {
-    return null;
+  if (!user || authLoading) {
+    return (
+      <div className="container mx-auto py-8 px-4">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (loading) {

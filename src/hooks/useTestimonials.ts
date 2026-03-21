@@ -120,7 +120,7 @@ export const useTestimonials = (filters?: TestimonialFilters) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // 'Authorization': `Bearer ${token}`, // Add auth token if needed
+          'Authorization': `Bearer ${localStorage.getItem('auth_token') || ''}`,
         },
         body: JSON.stringify(formData),
       });

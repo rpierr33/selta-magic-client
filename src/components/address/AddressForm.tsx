@@ -18,11 +18,12 @@ interface AddressFormData {
   first_name: string;
   last_name: string;
   phone: string;
-  address: string;
-  additional_info?: string;
+  address_line_1: string;
+  address_line_2?: string;
+  city: string;
+  state: string;
+  postal_code: string;
   country: string;
-  county?: string;
-  region?: string;
   is_default: boolean;
 }
 
@@ -57,11 +58,12 @@ export default function AddressForm({ onAddressAdded, onCancel, type = 'shipping
     first_name: '',
     last_name: '',
     phone: '',
-    address: '',
-    additional_info: '',
-    country: 'United States', // Default to US
-    county: '',
-    region: '',
+    address_line_1: '',
+    address_line_2: '',
+    city: '',
+    state: '',
+    postal_code: '',
+    country: 'United States',
     is_default: true
   });
 
@@ -77,14 +79,7 @@ export default function AddressForm({ onAddressAdded, onCancel, type = 'shipping
   }, [user]);
 
   const handleInputChange = (field: keyof AddressFormData, value: string | boolean) => {
-    setFormData(prev => {
-      const newData = { ...prev, [field]: value };
-      // Reset county when country changes
-      if (field === 'country') {
-        newData.county = '';
-      }
-      return newData;
-    });
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -99,13 +94,6 @@ export default function AddressForm({ onAddressAdded, onCancel, type = 'shipping
 
       // Debug: Log form data before sending
       console.log('Form data being sent:', formData);
-      console.log('Required fields check:', {
-        first_name: !!formData.first_name,
-        last_name: !!formData.last_name,
-        phone: !!formData.phone,
-        address: !!formData.address,
-        country: !!formData.country
-      });
 
       const response = await fetch(`${API_BASE_URL}/addresses`, {
         method: 'POST',
@@ -186,64 +174,94 @@ export default function AddressForm({ onAddressAdded, onCancel, type = 'shipping
           </div>
 
           <div>
-            <Label htmlFor="address">Address *</Label>
-            <Textarea
-              id="address"
-              value={formData.address}
-              onChange={(e) => handleInputChange('address', e.target.value)}
-              placeholder="Enter your full address"
-              rows={3}
+            <Label htmlFor="address_line_1">Street Address *</Label>
+            <Input
+              id="address_line_1"
+              value={formData.address_line_1}
+              onChange={(e) => handleInputChange('address_line_1', e.target.value)}
+              placeholder="123 Main Street"
               required
             />
           </div>
 
           <div>
-            <Label htmlFor="additional_info">Additional Information (Optional)</Label>
-            <Textarea
-              id="additional_info"
-              value={formData.additional_info}
-              onChange={(e) => handleInputChange('additional_info', e.target.value)}
-              placeholder="Apartment number, building name, delivery instructions, etc."
-              rows={2}
+            <Label htmlFor="address_line_2">Apt / Suite / Unit (Optional)</Label>
+            <Input
+              id="address_line_2"
+              value={formData.address_line_2}
+              onChange={(e) => handleInputChange('address_line_2', e.target.value)}
+              placeholder="Apartment 4B"
             />
           </div>
 
-          <div>
-            <Label htmlFor="country">Country *</Label>
-            <Select value={formData.country} onValueChange={(value) => handleInputChange('country', value)}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="h-60">
-                {COUNTRIES.map((country) => (
-                  <SelectItem key={country.code} value={country.name}>
-                    {country.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="city">City *</Label>
+              <Input
+                id="city"
+                value={formData.city}
+                onChange={(e) => handleInputChange('city', e.target.value)}
+                placeholder="New York"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="state">State *</Label>
+              {formData.country === 'United States' ? (
+                <Select
+                  value={formData.state}
+                  onValueChange={(value) => handleInputChange('state', value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select state" />
+                  </SelectTrigger>
+                  <SelectContent className="h-60">
+                    {US_STATES.map((state) => (
+                      <SelectItem key={state} value={state}>
+                        {state}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <Input
+                  id="state"
+                  value={formData.state}
+                  onChange={(e) => handleInputChange('state', e.target.value)}
+                  placeholder="State / Province / Region"
+                  required
+                />
+              )}
+            </div>
           </div>
 
-          {formData.country === 'United States' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="region">State</Label>
-              <Select
-                value={formData.region}
-                onValueChange={(value) => handleInputChange('region', value)}
-              >
+              <Label htmlFor="postal_code">Postal Code *</Label>
+              <Input
+                id="postal_code"
+                value={formData.postal_code}
+                onChange={(e) => handleInputChange('postal_code', e.target.value)}
+                placeholder="10001"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="country">Country *</Label>
+              <Select value={formData.country} onValueChange={(value) => handleInputChange('country', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select state" />
+                  <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="h-60">
-                  {US_STATES.map((state) => (
-                    <SelectItem key={state} value={state}>
-                      {state}
+                  {COUNTRIES.map((country) => (
+                    <SelectItem key={country.code} value={country.name}>
+                      {country.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
-          )}
+          </div>
 
           <div className="flex items-center space-x-2">
             <Checkbox

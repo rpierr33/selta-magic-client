@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAddresses } from "@/hooks/useAddresses";
 import CheckoutForm from "@/components/stripe/CheckoutForm";
 import AddressList from "@/components/address/AddressList";
+import { resolveImageUrl } from "@/utils/imageUtils";
 
 export default function Cart() {
   const { cartItems, updateQuantity, removeFromCart, getCartTotal, clearCart, loading } = useCart();
@@ -177,13 +178,7 @@ export default function Cart() {
                     <div className="flex flex-col sm:flex-row gap-4">
                       <div className="w-full sm:w-24 h-24">
                         <img
-                          src={
-                            item.image?.startsWith('http')
-                              ? item.image
-                              : item.image?.startsWith('/uploads')
-                                ? `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}${item.image}`
-                                : '/placeholder.svg'
-                          }
+                          src={resolveImageUrl(item.image)}
                           alt={item.name}
                           className="w-full h-full object-cover rounded-md"
                         />

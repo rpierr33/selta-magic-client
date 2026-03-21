@@ -8,11 +8,12 @@ interface Address {
   first_name: string;
   last_name: string;
   phone: string;
-  address: string;
-  additional_info?: string;
+  address_line_1: string;
+  address_line_2?: string;
+  city: string;
+  state: string;
+  postal_code: string;
   country: string;
-  county?: string;
-  region?: string;
   is_default: boolean;
 }
 
@@ -21,13 +22,14 @@ export const useAddresses = () => {
   const [loading, setLoading] = useState(false);
 
   const loadAddresses = async () => {
+    const token = localStorage.getItem('auth_token');
+    if (!token) {
+      setAddresses([]);
+      return;
+    }
+
     setLoading(true);
     try {
-      const token = localStorage.getItem('auth_token');
-      if (!token) {
-        throw new Error('No authentication token found');
-      }
-
       const response = await fetch(`${API_BASE_URL}/addresses`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -42,7 +44,6 @@ export const useAddresses = () => {
       setAddresses(result.data || []);
     } catch (error) {
       console.error('Error loading addresses:', error);
-      throw error;
     } finally {
       setLoading(false);
     }

@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,6 +13,7 @@ import { products } from '@/data/products';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function Testimonials() {
+  const navigate = useNavigate();
   const [selectedProduct, setSelectedProduct] = useState<string>('');
   const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'rating_high' | 'rating_low'>('newest');
   const [selectedRating, setSelectedRating] = useState<number | undefined>();
@@ -45,7 +47,7 @@ export default function Testimonials() {
   const handleWriteReviewClick = () => {
     if (!user) {
       // Redirect to login page with a return URL
-      window.location.href = `/login?returnTo=${encodeURIComponent('/testimonials')}`;
+      navigate(`/login?redirect=${encodeURIComponent('/testimonials')}`);
       return;
     }
     setShowForm(true);
@@ -137,7 +139,7 @@ export default function Testimonials() {
                 onClick={(e) => {
                   if (!user) {
                     e.preventDefault();
-                    window.location.href = `/login?returnTo=${encodeURIComponent('/testimonials')}`;
+                    navigate(`/login?redirect=${encodeURIComponent('/testimonials')}`);
                   }
                 }}
               >

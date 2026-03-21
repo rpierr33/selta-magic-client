@@ -114,7 +114,7 @@ router.post('/confirm-payment', authenticate, async (req, res) => {
       // Clear the user's cart
       await pool.query('DELETE FROM cart_items WHERE user_id = $1', [req.user.id]);
 
-      res.json({ data: result.rows[0], status: 'succeeded' });
+      res.json({ data: result.rows[0], orderId: result.rows[0].id, orderNumber: result.rows[0].order_number, status: 'succeeded' });
     } else {
       // Update order with current payment status
       await pool.query(

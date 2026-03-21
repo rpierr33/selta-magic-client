@@ -3,7 +3,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 export interface UserOrder {
   id: string;
   order_number: string;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded';
+  status: 'pending' | 'paid' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded';
   total_amount: number | string; // Can come as string from database
   created_at: string;
   tracking_number?: string;
@@ -87,16 +87,17 @@ export const userOrderService = {
   },
 
   // Format order status for display
-  getStatusDisplay(status: UserOrder['status']): { label: string; color: string; bgColor: string } {
-    const statusMap = {
+  getStatusDisplay(status: string): { label: string; color: string; bgColor: string } {
+    const statusMap: Record<string, { label: string; color: string; bgColor: string }> = {
       pending: { label: 'Pending', color: 'text-yellow-700', bgColor: 'bg-yellow-100' },
+      paid: { label: 'Paid', color: 'text-green-700', bgColor: 'bg-green-100' },
       processing: { label: 'Processing', color: 'text-blue-700', bgColor: 'bg-blue-100' },
       shipped: { label: 'Shipped', color: 'text-purple-700', bgColor: 'bg-purple-100' },
       delivered: { label: 'Delivered', color: 'text-green-700', bgColor: 'bg-green-100' },
       cancelled: { label: 'Cancelled', color: 'text-red-700', bgColor: 'bg-red-100' },
       refunded: { label: 'Refunded', color: 'text-gray-700', bgColor: 'bg-gray-100' },
     };
-    return statusMap[status];
+    return statusMap[status] || { label: status, color: 'text-gray-700', bgColor: 'bg-gray-100' };
   },
 
   // Format date for display

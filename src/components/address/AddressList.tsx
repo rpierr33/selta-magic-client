@@ -14,11 +14,12 @@ interface Address {
   first_name: string;
   last_name: string;
   phone: string;
-  address: string;
-  additional_info?: string;
+  address_line_1: string;
+  address_line_2?: string;
+  city: string;
+  state: string;
+  postal_code: string;
   country: string;
-  county?: string;
-  region?: string;
   is_default: boolean;
 }
 
@@ -112,13 +113,14 @@ export default function AddressList({ onAddressSelected, selectMode = false, typ
 
   const formatAddress = (address: Address) => {
     const parts = [
-      address.address,
-      address.additional_info,
-      address.county && address.country === 'Kenya' ? address.county : undefined,
-      address.region,
+      address.address_line_1,
+      address.address_line_2,
+      address.city,
+      address.state,
+      address.postal_code,
       address.country
     ].filter(Boolean);
-    
+
     return parts.join(', ');
   };
 
@@ -226,10 +228,7 @@ export default function AddressList({ onAddressSelected, selectMode = false, typ
               <CardContent className="pt-0">
                 <div className="space-y-2">
                   <p className="text-sm">{formatAddress(address)}</p>
-                  <p className="text-sm text-gray-600">Phone: {address.phone}</p>
-                  {address.additional_info && (
-                    <p className="text-sm text-gray-600 italic">{address.additional_info}</p>
-                  )}
+                  {address.phone && <p className="text-sm text-gray-600">Phone: {address.phone}</p>}
                 </div>
                 
                 {!selectMode && (

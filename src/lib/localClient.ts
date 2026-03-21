@@ -40,6 +40,18 @@ class LocalDBClient {
   }
 
   // Auth methods
+  // Map snake_case user from API to camelCase for frontend
+  private mapUser(user: any): User | null {
+    if (!user) return null;
+    return {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName || user.first_name || '',
+      lastName: user.lastName || user.last_name || '',
+      role: user.role || 'user',
+    };
+  }
+
   async signUp(email: string, password: string, firstName: string, lastName: string): Promise<AuthResponse> {
     try {
       const response = await fetch(`${API_BASE_URL}/auth/signup`, {
@@ -57,7 +69,7 @@ class LocalDBClient {
         localStorage.setItem('auth_token', data.token);
       }
 
-      return data;
+      return { user: this.mapUser(data.user), token: data.token, error: data.error || null };
     } catch (error) {
       return { user: null, token: null, error: 'Network error' };
     }
@@ -80,7 +92,7 @@ class LocalDBClient {
         localStorage.setItem('auth_token', data.token);
       }
 
-      return data;
+      return { user: this.mapUser(data.user), token: data.token, error: data.error || null };
     } catch (error) {
       return { user: null, token: null, error: 'Network error' };
     }
@@ -118,7 +130,7 @@ class LocalDBClient {
       });
 
       const data = await response.json();
-      return { user: data.user || null, error: data.error || null };
+      return { user: this.mapUser(data.user), error: data.error || null };
     } catch (error) {
       return { user: null, error: 'Session check failed' };
     }

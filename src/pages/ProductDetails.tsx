@@ -7,7 +7,6 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/hooks/useCart";
-import { toast } from "sonner";
 import { resolveImageUrl, createImageErrorHandler } from "@/utils/imageUtils";
 import ProductTestimonials from "@/components/testimonials/ProductTestimonials";
 
