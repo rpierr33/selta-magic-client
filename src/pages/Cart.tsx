@@ -185,7 +185,7 @@ export default function Cart() {
                       </div>
                       <div className="flex-grow">
                         <h3 className="font-medium text-selta-deep-purple">{item.name}</h3>
-                        <p className="text-selta-gold font-bold mt-1">${item.price.toFixed(2)}</p>
+                        <p className="text-selta-gold font-bold mt-1">${parseFloat(String(item.price)).toFixed(2)}</p>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="flex items-center">

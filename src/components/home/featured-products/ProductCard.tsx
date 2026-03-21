@@ -91,7 +91,7 @@ export default function ProductCard({ product, variants }: ProductCardProps) {
             onClick={handleProductClick}
             className="block cursor-pointer"
           >
-            <h3 className="font-display text-lg font-semibold text-selta-deep-purple mb-1">
+            <h3 className="font-display text-lg font-semibold text-selta-deep-purple mb-1 line-clamp-1">
               {product.name}
             </h3>
           </div>
