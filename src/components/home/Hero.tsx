@@ -141,7 +141,7 @@ export default function Hero({ className }: HeroProps) {
             </motion.div>
           </div>
 
-          {/* Right Column - Hero Image */}
+          {/* Right Column - Lifestyle Hero Image */}
           <div className="relative">
             <motion.div
               className="relative z-10"
@@ -149,20 +149,21 @@ export default function Hero({ className }: HeroProps) {
               animate={loaded ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              {/* Static hero image - clean and contained */}
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/20 z-10 max-w-sm mx-auto">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/20 z-10 max-w-md mx-auto">
                 <img
-                  src="/lovable-uploads/hair-oil.avif"
-                  alt="Selta Magic Growth Elixir - Premium Hair Care"
-                  className="w-full h-auto object-contain"
-                  width="600"
-                  height="750"
+                  src="/lovable-uploads/55292163-5974-413e-a020-84e8c917e90a.png"
+                  alt="Beautiful hair with Selta Magic"
+                  className="w-full h-auto object-cover aspect-[3/4] rounded-2xl"
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"
                 />
-                {/* Subtle gradient overlay at bottom */}
-                <div className="absolute inset-0 bg-gradient-to-t from-selta-deep-purple/40 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-selta-deep-purple/60 via-transparent to-transparent rounded-2xl" />
+                <div className="absolute bottom-6 left-6 right-6">
+                  <p className="text-white font-display text-lg font-semibold drop-shadow-lg">
+                    Real results. Real confidence.
+                  </p>
+                </div>
               </div>
             </motion.div>
           </div>
