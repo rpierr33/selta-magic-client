@@ -1,6 +1,6 @@
 // Local database client to replace Supabase
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 export interface User {
   id: string;
