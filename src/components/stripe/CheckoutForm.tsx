@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -22,17 +22,20 @@ export default function CheckoutForm({ amount, cartItems, shippingAddress, onSuc
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [formDisabled, setFormDisabled] = useState(false);
   const { toast } = useToast();
+  const paymentIntentCreated = useRef(false);
 
-  // Create payment intent on component mount
+  // Create payment intent once on component mount
   useEffect(() => {
-    if (!user || !cartItems.length || !shippingAddress) {
-      return;
-    }
+    if (paymentIntentCreated.current || clientSecret) return;
+    if (!user || !cartItems.length || !shippingAddress) return;
+
+    paymentIntentCreated.current = true;
 
     const createPaymentIntent = async () => {
       try {
         const token = localStorage.getItem('auth_token');
         if (!token) {
+          paymentIntentCreated.current = false;
           throw new Error('No authentication token found');
         }
 
@@ -53,6 +56,7 @@ export default function CheckoutForm({ amount, cartItems, shippingAddress, onSuc
         if (!response.ok) {
           const errorData = await response.json();
           console.error('Payment intent error response:', errorData);
+          paymentIntentCreated.current = false;
           throw new Error(errorData.error || 'Failed to create payment intent');
         }
 
@@ -69,7 +73,7 @@ export default function CheckoutForm({ amount, cartItems, shippingAddress, onSuc
     };
 
     createPaymentIntent();
-  }, [amount, cartItems, shippingAddress, user]);
+  }, [amount, cartItems, shippingAddress, user, clientSecret]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

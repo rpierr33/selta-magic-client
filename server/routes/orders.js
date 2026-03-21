@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', authenticate, async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT o.*, json_agg(
+      `SELECT o.*, COALESCE(json_agg(
          json_build_object(
            'id', oi.id,
            'product_id', oi.product_id,
@@ -17,7 +17,7 @@ router.get('/', authenticate, async (req, res) => {
            'quantity', oi.quantity,
            'price', oi.price
          )
-       ) AS items
+       ) FILTER (WHERE oi.id IS NOT NULL), '[]'::json) AS items
        FROM orders o
        LEFT JOIN order_items oi ON o.id = oi.order_id
        WHERE o.user_id = $1
@@ -36,7 +36,7 @@ router.get('/', authenticate, async (req, res) => {
 router.get('/:id', authenticate, async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT o.*, json_agg(
+      `SELECT o.*, COALESCE(json_agg(
          json_build_object(
            'id', oi.id,
            'product_id', oi.product_id,
@@ -45,7 +45,7 @@ router.get('/:id', authenticate, async (req, res) => {
            'quantity', oi.quantity,
            'price', oi.price
          )
-       ) AS items
+       ) FILTER (WHERE oi.id IS NOT NULL), '[]'::json) AS items
        FROM orders o
        LEFT JOIN order_items oi ON o.id = oi.order_id
        WHERE o.id = $1 AND o.user_id = $2

@@ -8,10 +8,19 @@ const router = express.Router();
 router.get('/', authenticate, async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM cart_items WHERE user_id = $1 ORDER BY created_at DESC',
+      'SELECT id, product_id, name, price, image, quantity, created_at FROM cart_items WHERE user_id = $1 ORDER BY created_at DESC',
       [req.user.id]
     );
-    res.json({ data: result.rows });
+    // Map rows: use product_id as id for frontend, parse price to number
+    const items = result.rows.map(row => ({
+      id: row.product_id,
+      product_id: row.product_id,
+      name: row.name,
+      price: parseFloat(row.price),
+      image: row.image,
+      quantity: row.quantity,
+    }));
+    res.json({ data: items });
   } catch (err) {
     console.error('Get cart error:', err.message);
     res.status(500).json({ error: 'Internal server error' });

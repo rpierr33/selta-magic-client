@@ -14,11 +14,13 @@ function getStripe() {
 
 // POST /api/stripe/create-payment-intent
 router.post('/create-payment-intent', authenticate, async (req, res) => {
+  const client = await pool.connect();
   try {
     const stripe = getStripe();
     const { amount, currency, cartItems, shippingAddress } = req.body;
 
     if (!amount || !cartItems || cartItems.length === 0) {
+      client.release();
       return res.status(400).json({ error: 'Amount and cart items are required' });
     }
 
@@ -34,8 +36,11 @@ router.post('/create-payment-intent', authenticate, async (req, res) => {
     // Generate order number
     const orderNumber = 'SM-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
 
+    // Use a transaction for order + order_items
+    await client.query('BEGIN');
+
     // Create order in database
-    const orderResult = await pool.query(
+    const orderResult = await client.query(
       `INSERT INTO orders (
         id, user_id, order_number, total_amount, status, payment_intent_id,
         shipping_first_name, shipping_last_name, shipping_address_line_1, shipping_address_line_2,
@@ -66,12 +71,14 @@ router.post('/create-payment-intent', authenticate, async (req, res) => {
 
     // Insert order items
     for (const item of cartItems) {
-      await pool.query(
+      await client.query(
         `INSERT INTO order_items (id, order_id, product_id, product_name, product_image, quantity, price)
          VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6)`,
-        [order.id, item.productId || item.product_id, item.name || item.product_name, item.image || item.product_image, item.quantity, item.price]
+        [order.id, item.productId || item.product_id || item.id, item.name || item.product_name, item.image || item.product_image, item.quantity, item.price]
       );
     }
+
+    await client.query('COMMIT');
 
     res.json({
       clientSecret: paymentIntent.client_secret,
@@ -80,8 +87,11 @@ router.post('/create-payment-intent', authenticate, async (req, res) => {
       orderNumber: order.order_number,
     });
   } catch (err) {
+    await client.query('ROLLBACK');
     console.error('Create payment intent error:', err.message);
     res.status(500).json({ error: err.message || 'Internal server error' });
+  } finally {
+    client.release();
   }
 });
 
