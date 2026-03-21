@@ -11,7 +11,7 @@ export const useTestimonials = (filters?: TestimonialFilters) => {
 
   const loadTestimonials = useCallback(async () => {
     try {
-      console.log('Loading testimonials with filters:', filters);
+      // Loading testimonials
       setLoading(true);
       setError(null);
 
@@ -20,10 +20,10 @@ export const useTestimonials = (filters?: TestimonialFilters) => {
       if (filters?.productId) queryParams.append('product_id', filters.productId);
       if (filters?.rating) queryParams.append('rating', filters.rating.toString());
       if (filters?.sortBy) queryParams.append('sort_by', filters.sortBy);
-      queryParams.append('isApproved', 'true'); // Always fetch approved testimonials
+      queryParams.append('approved', 'true'); // Always fetch approved testimonials
 
       const url = `${config.apiBaseUrl}/testimonials?${queryParams.toString()}`;
-      console.log('Fetching testimonials from:', url);
+      // Fetching testimonials
 
       const response = await fetch(url);
       if (!response.ok) {
@@ -31,7 +31,7 @@ export const useTestimonials = (filters?: TestimonialFilters) => {
       }
 
       const data = await response.json();
-      console.log('Loaded testimonials from API:', data);
+      // Testimonials loaded
 
       if (data.error) {
         throw new Error(data.error);

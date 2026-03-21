@@ -40,7 +40,18 @@ router.get('/', async (req, res) => {
     }
 
     const result = await pool.query(query, params);
-    res.json({ data: result.rows });
+    const mapped = result.rows.map(row => ({
+      id: row.id,
+      customerName: row.customer_name,
+      customerEmail: row.email,
+      productName: row.product_name,
+      productId: row.product_id,
+      message: row.message,
+      rating: row.rating,
+      isApproved: row.is_approved,
+      createdAt: row.created_at,
+    }));
+    res.json({ data: mapped });
   } catch (err) {
     console.error('Get testimonials error:', err.message);
     res.status(500).json({ error: 'Internal server error' });
