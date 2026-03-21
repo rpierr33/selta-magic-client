@@ -102,16 +102,9 @@ export default function Cart() {
   const handlePaymentSuccess = (orderId: string) => {
     // Clear the cart after successful payment
     clearCart();
-    
-    toast({
-      title: "Order completed",
-      description: `Thank you for your purchase! Your order has been placed successfully. You can track your order in "My Orders".`,
-    });
-    
-    // Redirect to orders page after a short delay
-    setTimeout(() => {
-      navigate("/orders");
-    }, 2000);
+
+    // Navigate to order confirmation page
+    navigate(`/order-confirmation/${orderId}`);
   };
   
   const handleApplyPromo = (e: React.FormEvent) => {

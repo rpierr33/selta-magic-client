@@ -11,6 +11,7 @@ import Search from './pages/Search';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import Orders from './pages/Orders';
+import OrderConfirmation from './pages/OrderConfirmation';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import ShippingPolicy from './pages/ShippingPolicy';
@@ -105,6 +106,7 @@ function App() {
               <Route path="/search" element={<Search />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/orders" element={<Orders />} />
+              <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />
               <Route path="/login" element={<Login />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
