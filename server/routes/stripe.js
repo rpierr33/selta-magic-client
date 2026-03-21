@@ -4,27 +4,34 @@ const { authenticate } = require('../middleware/auth');
 
 const router = express.Router();
 
+// Initialize Stripe once at module level
+let stripeInstance = null;
 function getStripe() {
-  const key = process.env.STRIPE_SECRET_KEY;
+  if (stripeInstance) return stripeInstance;
+  const key = (process.env.STRIPE_SECRET_KEY || '').trim();
   if (!key) {
     throw new Error('STRIPE_SECRET_KEY is not configured');
   }
-  return require('stripe')(key);
+  stripeInstance = require('stripe')(key, {
+    timeout: 10000, // 10 second timeout
+  });
+  return stripeInstance;
 }
 
 // POST /api/stripe/create-payment-intent
 router.post('/create-payment-intent', authenticate, async (req, res) => {
-  const client = await pool.connect();
+  let client;
   try {
     const stripe = getStripe();
     const { amount, currency, cartItems, shippingAddress } = req.body;
 
     if (!amount || !cartItems || cartItems.length === 0) {
-      client.release();
       return res.status(400).json({ error: 'Amount and cart items are required' });
     }
 
-    // Create Stripe PaymentIntent
+    console.log('Creating Stripe PaymentIntent for amount:', amount, 'cents:', Math.round(amount * 100));
+
+    // Create Stripe PaymentIntent first (before DB)
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // Convert to cents
       currency: currency || 'usd',
@@ -33,10 +40,13 @@ router.post('/create-payment-intent', authenticate, async (req, res) => {
       },
     });
 
+    console.log('PaymentIntent created:', paymentIntent.id);
+
     // Generate order number
     const orderNumber = 'SM-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
 
-    // Use a transaction for order + order_items
+    // Now get DB connection and use a transaction for order + order_items
+    client = await pool.connect();
     await client.query('BEGIN');
 
     // Create order in database
@@ -87,11 +97,11 @@ router.post('/create-payment-intent', authenticate, async (req, res) => {
       orderNumber: order.order_number,
     });
   } catch (err) {
-    await client.query('ROLLBACK');
-    console.error('Create payment intent error:', err.message);
+    if (client) await client.query('ROLLBACK').catch(() => {});
+    console.error('Create payment intent error:', err.type || '', err.message, err.statusCode || '', err.code || '');
     res.status(500).json({ error: err.message || 'Internal server error' });
   } finally {
-    client.release();
+    if (client) client.release();
   }
 });
 
