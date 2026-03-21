@@ -15,15 +15,16 @@ import { resolveImageUrl } from "@/utils/imageUtils";
 export default function Cart() {
   const { cartItems, updateQuantity, removeFromCart, getCartTotal, clearCart, loading } = useCart();
   const { user } = useAuth();
-  const { hasShippingAddress, addresses } = useAddresses();
+  const { hasShippingAddress, addresses, loadAddresses } = useAddresses();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [promoCode, setPromoCode] = useState("");
   const [showStripeForm, setShowStripeForm] = useState(false);
   const [showAddressForm, setShowAddressForm] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState<any>(null);
 
-  // Get default shipping address
-  const defaultShippingAddress = addresses.find(addr => addr.type === 'shipping' && addr.is_default);
+  // Get default shipping address — use selected address if available, otherwise find from loaded addresses
+  const defaultShippingAddress = selectedAddress || addresses.find(addr => addr.type === 'shipping' && addr.is_default) || addresses.find(addr => addr.type === 'shipping');
 
   const handleUpdateQuantity = async (itemId: string, newQuantity: number) => {
     try {
@@ -275,11 +276,13 @@ export default function Cart() {
                       <h3 className="font-medium text-selta-deep-purple">Add Shipping Address</h3>
                     </div>
                     
-                    <AddressList 
+                    <AddressList
                       type="shipping"
-                      onAddressSelected={() => {
+                      onAddressSelected={(address) => {
+                        setSelectedAddress(address);
                         setShowAddressForm(false);
                         setShowStripeForm(true);
+                        loadAddresses();
                       }}
                     />
                     
